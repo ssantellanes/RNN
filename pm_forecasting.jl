@@ -34,7 +34,7 @@ ps = Flux.params(model)
 # Define the loss function and the optimizer
 loss(x, y) = Flux.mse(model(x)[:], y)
 opt = ADAM(1e-2)
-epochs = 1000
+epochs = 5000
 batch_size = seq_length
 
 for epoch in 1:epochs
