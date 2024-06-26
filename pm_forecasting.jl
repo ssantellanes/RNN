@@ -3,9 +3,9 @@ using DataFrames, CSV, Plots, Statistics, Flux, Dates
 data=CSV.read("/Users/seansantellanes/Documents/RNN/us-epa-pm25-aqi.csv", DataFrame)
 data=data[:,Not(2)]
 
-data2=select(data, :"LRAPA-Amazon Park A",:"LRAPA-Amazon Park B",
-     AsTable([:"LRAPA-Amazon Park A",:"LRAPA-Amazon Park B"]) => x
-      -> (data."LRAPA-Amazon Park A"+data."LRAPA-Amazon Park B")/2)
+data2=select(data, [2,3],
+ AsTable([2,3]) => x
+  -> (data[:,2]+data[:,3])/2)
 tar_data=select(data2, Not(1,2))
 tar_data=rename!(tar_data,[:a])
 tar_vector=Vector{Float32}(tar_data[:,:a])
@@ -24,7 +24,7 @@ X = hcat(X...)'
 y = Float32.(y)
 model = Chain(
     LSTM(seq_length, 50),
-    Dense(50,50,tanh_fast),
+    LSTM(50,50),
     Dense(50, 1)
 )
 
