@@ -71,6 +71,7 @@ for i in 1:seq_length
     push!(dt,last_dt)
 end
 predictions=convert(Vector{Float32},vec(predictions))
+@show predictions
 p=plot(dt[1:end-num_predictions], tar_vector, label="Original Data",ylims=(0,60),ylabel="PM2.5",xlabel="Date Time",lw=1.5)
 plot!(p,dt[end-num_predictions+1:end], predictions, label="Predictions",color=:black,lw=2.5)
 hspan!(p,[0,50],color=:green,alpha=0.2)
